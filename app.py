@@ -1,32 +1,29 @@
 from flask import Flask, request, send_file
 from flask_cors import CORS
 import tempfile
-import os
 from bowling_sideview_analysis_v2 import process_video
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # Enable CORS for all domains
 
 @app.route('/')
 def home():
-    return "🏏 Bowling Analyzer API is running."
+    return "🏏 Bowling Analyzer Backend is Live!"
 
 @app.route('/process', methods=['POST'])
 def process():
     try:
-        video = request.files.get('video')
-        arm = request.form.get('arm', '').lower()
+        video = request.files['video']
+        arm = request.form['arm']
 
-        if not video or arm not in ['left', 'right']:
-            return {"error": "Invalid video file or missing bowling arm (left/right)."}, 400
-
-        # Save uploaded video to a temporary file
+        # Save uploaded video to temporary file
         temp_input = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
         video.save(temp_input.name)
 
-        # Call processing function
+        # Process the video using custom function
         output_path = process_video(temp_input.name, arm)
 
+        # Send the processed video as response
         return send_file(output_path, mimetype='video/mp4')
 
     except Exception as e:
