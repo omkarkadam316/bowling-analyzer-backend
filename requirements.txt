@@ -1,7 +1,9 @@
-flask
-flask-cors
-opencv-python
-mediapipe
-torch
-ultralytics
-numpy
+flask==2.2.3
+flask-cors==3.0.10
+numpy==1.24.3
+opencv-python-headless==4.7.0.72
+mediapipe==0.9.1.0
+ultralytics==8.0.145
+torch==2.0.1
+werkzeug==2.2.3
+gunicorn==20.1.0
